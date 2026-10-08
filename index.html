@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Планер футбольних зборів">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+
+  <title>⚽ Мої збори</title>
+</head>
+
+<body>
+
+  <!-- Верхня панель -->
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">ФУТБОЛЬНІ ЗБОРИ</div>
+      <h1>⚽ Мої збори</h1>
+    </div>
+
+    <button
+      id="settingsBtn"
+      class="icon-btn"
+      aria-label="Налаштування">
+      ⚙️
+    </button>
+  </header>
+
+
+  <main class="container">
+
+    <!-- Головний блок -->
+    <section class="hero card">
+
+      <div>
+        <div class="muted">Сьогодні</div>
+
+        <h2 id="todayTitle">
+          Мій день
+        </h2>
+
+        <p id="todayDate" class="muted"></p>
+      </div>
+
+      <div class="hero-stats">
+
+        <div>
+          <b id="doneCount">0</b>
+          <span>виконано</span>
+        </div>
+
+        <div>
+          <b id="xpCount">0</b>
+          <span>XP</span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Швидкі кнопки -->
+    <section class="quick-grid">
+
+      <button class="quick card" data-tab="today">
+        📅
+        <span>Мій день</span>
+      </button>
+
+      <button class="quick card" data-tab="packing">
+        🎒
+        <span>Що взяти</span>
+      </button>
+
+      <button class="quick card" data-tab="training">
+        ⚽
+        <span>Тренування</span>
+      </button>
+
+      <button class="quick card" data-tab="games">
+        🎲
+        <span>Ігри</span>
+      </button>
+
+    </section>
+
+
+    <!-- Прогрес -->
+    <section class="progress card">
+
+      <div class="row between">
+
+        <b>Прогрес дня</b>
+
+        <span id="progressText">
+          0%
+        </span>
+
+      </div>
+
+      <div class="bar">
+        <div id="progressBar"></div>
+      </div>
+
+    </section>
+
+
+    <!-- Навігація -->
+    <nav class="tabs">
+
+      <button
+        class="tab active"
+        data-tab="today">
+        Сьогодні
+      </button>
+
+      <button
+        class="tab"
+        data-tab="tasks">
+        Завдання
+      </button>
+
+      <button
+        class="tab"
+        data-tab="packing">
+        Що взяти
+      </button>
+
+      <button
+        class="tab"
+        data-tab="training">
+        Футбол
+      </button>
+
+      <button
+        class="tab"
+        data-tab="games">
+        Ігри
+      </button>
+
+    </nav>
+
+
+    <!-- Сторінки -->
+    <section
+      id="today"
+      class="view active">
+    </section>
+
+    <section
+      id="tasks"
+      class="view">
+    </section>
+
+    <section
+      id="packing"
+      class="view">
+    </section>
+
+    <section
+      id="training"
+      class="view">
+    </section>
+
+    <section
+      id="games"
+      class="view">
+    </section>
+
+  </main>
+
+
+  <!-- ========================= -->
+  <!-- НАЛАШТУВАННЯ -->
+  <!-- ========================= -->
+
+  <dialog id="settingsDialog">
+
+    <form
+      method="dialog"
+      id="settingsForm"
+      class="dialog-card">
+
+      <div class="row between">
+
+        <h2>⚙️ Налаштування</h2>
+
+        <button
+          class="icon-btn"
+          value="cancel">
+          ✕
+        </button>
+
+      </div>
+
+
+      <label>
+        Назва зборів
+
+        <input
+          id="campName"
+          type="text"
+          placeholder="Мої футбольні збори">
+      </label>
+
+
+      <label>
+        Дата початку
+
+        <input
+          id="startDate"
+          type="date">
+      </label>
+
+
+      <label>
+        Дата завершення
+
+        <input
+          id="endDate"
+          type="date">
+      </label>
+
+
+      <label>
+        Час ранкового нагадування
+
+        <input
+          id="alarmTime"
+          type="time">
+      </label>
+
+
+      <div class="note">
+
+        Сайт може показувати веб-сповіщення,
+        якщо браузер дозволяє сповіщення.
+
+        Справжній системний будильник телефону
+        потрібно встановити в застосунку
+        «Годинник».
+
+      </div>
+
+
+      <div class="settings-actions">
+
+        <button
+          type="button"
+          id="notifyBtn"
+          class="secondary">
+          🔔 Дозволити сповіщення
+        </button>
+
+
+        <button
+          type="button"
+          id="exportBtn"
+          class="secondary">
+          💾 Експорт даних
+        </button>
+
+
+        <button
+          type="button"
+          id="resetBtn"
+          class="danger">
+          Скинути все
+        </button>
+
+
+        <button
+          type="submit"
+          class="primary">
+          Зберегти
+        </button>
+
+      </div>
+
+    </form>
+
+  </dialog>
+
+
+  <!-- ========================= -->
+  <!-- ДОДАТИ ЗАВДАННЯ -->
+  <!-- ========================= -->
+
+  <dialog id="taskDialog">
+
+    <form
+      method="dialog"
+      id="taskForm"
+      class="dialog-card">
+
+      <div class="row between">
+
+        <h2>➕ Нове завдання</h2>
+
+        <button
+          class="icon-btn"
+          value="cancel">
+          ✕
+        </button>
+
+      </div>
+
+
+      <label>
+        Що зробити?
+
+        <input
+          id="taskTitle"
+          required
+          maxlength="80"
+          placeholder="Наприклад: застелити ліжко">
+      </label>
+
+
+      <label>
+        Категорія
+
+        <select id="taskCategory"></select>
+
+      </label>
+
+
+      <label>
+        Час
+
+        <input
+          id="taskTime"
+          type="time">
+      </label>
+
+
+      <label>
+        Пріоритет
+
+        <select id="taskPriority">
+
+          <option value="low">
+            🟢 Звичайне
+          </option>
+
+          <option
+            value="medium"
+            selected>
+            🟡 Важливе
+          </option>
+
+          <option value="high">
+            🔴 Дуже важливе
+          </option>
+
+        </select>
+
+      </label>
+
+
+      <button
+        type="submit"
+        class="primary">
+        Додати
+      </button>
+
+    </form>
+
+  </dialog>
+
+
+  <!-- ========================= -->
+  <!-- ДОДАТИ РІЧ -->
+  <!-- ========================= -->
+
+  <dialog id="itemDialog">
+
+    <form
+      method="dialog"
+      id="itemForm"
+      class="dialog-card">
+
+      <div class="row between">
+
+        <h2>➕ Що взяти</h2>
+
+        <button
+          class="icon-btn"
+          value="cancel">
+          ✕
+        </button>
+
+      </div>
+
+
+      <label>
+        Назва
+
+        <input
+          id="itemTitle"
+          required
+          maxlength="80"
+          placeholder="Наприклад: футбольні шкарпетки">
+      </label>
+
+
+      <label>
+        Кількість
+
+        <input
+          id="itemQty"
+          type="number"
+          min="1"
+          value="1">
+      </label>
+
+
+      <label>
+        Категорія
+
+        <select id="itemCategory"></select>
+
+      </label>
+
+
+      <button
+        type="submit"
+        class="primary">
+        Додати
+      </button>
+
+    </form>
+
+  </dialog>
+
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+
+</body>
+</html>
